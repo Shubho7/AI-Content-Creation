@@ -28,4 +28,17 @@ research_analyst_agent = Agent(
     llm=llm
 )
 
+# Agent 2
+content_writer_agent = Agent(
+    role="Content Writer",
+    goal=f"Write a detailed engaging article on {topic} based on the research provided by the research analyst while maintaining accuracy.",
+    backstory="You are a skilled content writer with 10 years of experience in writing engaging content from research reports."
+              "You have a deep understanding of the audience and their interests. You have a strong command of english"
+              "language, grammar, and style. You work closely with the research analyst to transform complex research"
+              "findings into well-structured article that is easy to read and understand ensuring all the facts, data,"
+              "references and citations from the research report are incorporated. Your writing is clear, engaging and tailored.",
+    allow_delegation=False,
+    verbose=True,
+    llm=llm
+)
 
