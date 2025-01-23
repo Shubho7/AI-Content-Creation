@@ -13,6 +13,7 @@ llm = Groq(api_key=os.getenv("GROQ_API_KEY"), model="llama-3.1-8b-instant", temp
 # Tool 2
 websearch_tool = SerperDevTool(n=5)
 
+
 ## Create Agents
 # Agent 1
 research_analyst_agent = Agent(
@@ -44,6 +45,7 @@ content_writer_agent = Agent(
     llm=llm
 )
 
+
 ## Create Tasks
 # Task 1
 research_task = Task(
@@ -64,4 +66,27 @@ research_task = Task(
         "Format with clear sections, proper headings, subheadings, bullet points, and citations."
     ),
     agent=research_analyst_agent
+)
+
+# Task 2
+writing_task = Task(
+    description=(
+        "Using the research report provided, write an engaging blog post on {topic} that -"
+        "1. Maintains all factual accuracy and citations from the research. It should have:"
+        "- Attention-grabbing introduction"
+        "- Well-structured body sections with proper headings, sub-headings and bullet points"
+        "- Compelling conclusion"
+        "2. Preserve all source citations in [Source: URL] format"
+        "3. Include a References section at the end"
+        "4. Summarize complex information with clarity including facts and proper citations"
+    ), 
+    expected_output=(
+        "A polished article in markdown format that -" 
+        "1. Engages readers while maintaining accuracy"
+        "2. Contains properly structured sections"
+        "3. Includes inline citations hyperlinked to the original source url"
+        "4. Presents information in an accessible yet informative way"
+        "5. Follows proper markdown formatting, use H1 for the title and H3 for the sub-headings"
+    ),
+    agent=content_writer_agent
 )
