@@ -6,12 +6,14 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+## Create Tools
 # Tool 1
 llm = Groq(api_key=os.getenv("GROQ_API_KEY"), model="llama-3.1-8b-instant", temperature=0.5)
 
 # Tool 2
 websearch_tool = SerperDevTool(n=5)
 
+## Create Agents
 # Agent 1
 research_analyst_agent = Agent(
     role="Senior Research Analyst",
@@ -42,3 +44,24 @@ content_writer_agent = Agent(
     llm=llm
 )
 
+## Create Tasks
+# Task 1
+research_task = Task(
+    description=(
+        "1. Conduct comprehensive research on {topic} from reliable web sources."
+        "2. Evaluate source credibility, fact check and cross-reference information."
+        "3. Identify key insights, trends, statistics, and relevant data."
+        "4. Summarize complex information with clarity including facts and proper citations."
+    ), 
+    expected_output=(
+        "A detailed research report on {topic} with key insights, trends, statistics, and relevant data. It should include:"
+        "- Summary of key findings and insights."
+        "- Comprehensive analysis of current trends and developments."
+        "- Relevant statistics, data, and certified facts."
+        "- All citations and links to original sources."
+        "- Clear categorization of themes and patterns."
+        "- Clear and engaging writing style."
+        "Format with clear sections, proper headings, subheadings, bullet points, and citations."
+    ),
+    agent=research_analyst_agent
+)
