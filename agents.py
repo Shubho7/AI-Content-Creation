@@ -90,3 +90,16 @@ writing_task = Task(
     ),
     agent=content_writer_agent
 )
+
+
+# Create the crew
+crew = Crew(
+    agents=[research_analyst_agent, content_writer_agent],
+    tasks=[research_task, writing_task],
+    verbose=True
+)
+
+
+# Run the crew
+result = crew.kickoff(inputs={"topic": topic})
+print(result)
