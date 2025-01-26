@@ -1,5 +1,4 @@
-crewai
+crewai==0.98.0
 crewai-tools
 streamlit
 python-dotenv
-groq
