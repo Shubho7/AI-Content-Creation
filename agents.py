@@ -16,7 +16,7 @@ llm = LLM(
 )
 
 # Tool 2
-websearch_tool = SerperDevTool(n=5)
+websearch_tool = SerperDevTool(n=10)
 
 
 ## Create Agents
@@ -101,5 +101,4 @@ writing_task = Task(
 crew = Crew(
     agents=[research_analyst_agent, content_writer_agent],
     tasks=[research_task, writing_task],
-    # verbose=True
 )

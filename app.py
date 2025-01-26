@@ -1,24 +1,21 @@
 import streamlit as st
 from crewai import Agent, Task, Crew, LLM
 from crewai_tools import SerperDevTool
-import os
 from dotenv import load_dotenv
+import os
 
-# Load environment variables
 load_dotenv()
 
 serper_api_key = os.getenv("SERPER_API_KEY")
 
 #streamlit ui
 st.set_page_config(page_title="AI-Content-Creation", page_icon=":robot_face:", layout="wide")
-st.title("We write it all!")
+st.title("We write it all! 😁")
 st.markdown("Built with CrewAI")
 st.markdown("---")
 
 with st.sidebar:
-    
-    topic = st.text_area("What can I help with?", height=80, placeholder="Enter your topic here")
-
+    topic = st.text_area("What can I help with? 👀", height=80, placeholder="Enter your topic here")
     st.markdown("---")
     generate_button = st.button("Generate content", type="primary", use_container_width=True)
 
@@ -29,10 +26,9 @@ def generate_content(topic):
     temperature=0.5
     )
 
-    # Initialize tools
-    websearch_tool = SerperDevTool(n=5)
+    websearch_tool = SerperDevTool(n=10)
 
-    # Create agents
+    ## Agents
     research_analyst_agent = Agent(
         role="Senior Research Analyst",
         goal="Research, analyze and summarize comprehensive information on {topic} from reliable web sources.",
@@ -61,7 +57,8 @@ def generate_content(topic):
         llm=llm
     )
 
-    # Create tasks
+
+    ## Tasks
     research_task = Task(
         description=(
             "1. Conduct comprehensive research on {topic} from reliable web sources."
@@ -86,9 +83,9 @@ def generate_content(topic):
         description=(
             "Using the research report provided, write an engaging blog post on {topic} that -"
             "1. Maintains all factual accuracy and citations from the research. It should have:"
-            "- Attention-grabbing introduction"
-            "- Well-structured body sections with proper headings, sub-headings and bullet points"
-            "- Compelling conclusion"
+                "- Attention-grabbing introduction"
+                "- Well-structured body sections with proper headings, sub-headings and bullet points"
+                "- Compelling conclusion"
             "2. Preserve all source citations in [Source: URL] format"
             "3. Include a References section at the end"
             "4. Summarize complex information with clarity including facts and proper citations"
@@ -104,23 +101,27 @@ def generate_content(topic):
         agent=content_writer_agent
     )
 
-    # Create the crew
+
+    # Crew
     crew = Crew(
         agents=[research_analyst_agent, content_writer_agent],
         tasks=[research_task, writing_task]
     )
 
+
     return crew.kickoff(inputs={"topic": topic})
 
+
+# Streamlit UI
 if generate_button:
     with st.spinner("Researching...Writing..."):
         try:
             result = generate_content(topic)
-            st.markdown("Here you go! :sunglasses:")
+            st.markdown("Here you go! 😎")
             st.markdown(result)
 
             st.download_button(
-                label="Download Content",
+                label="Download ➡️",
                 data=result.raw,
                 file_name=f"{topic.lower().replace(' ', '_')}_article.md",
                 mime="text/markdown"
